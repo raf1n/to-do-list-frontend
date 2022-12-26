@@ -1,24 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container } from "@material-ui/core";
+import NavBar from "./components/AppBar/NavBar";
+import InputField from "./components/InputField/InputField";
+import TaskItem from "./components/TaskItem/TaskItem";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <NavBar></NavBar>
+      <InputField></InputField>
+      {[1, 2, 3, 4].map((indx, item) => (
+        <TaskItem key={indx} item={item}></TaskItem>
+      ))}
+    </Container>
   );
 }
 
