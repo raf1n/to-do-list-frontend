@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
-const TaskItem = () => {
+const TaskItem = ({ item }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -24,7 +24,7 @@ const TaskItem = () => {
       alignItems="center"
       style={{
         marginTop: "10px",
-        padding: "5px",
+        padding: "10px",
         boxShadow:
           "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
         borderRadius: "3px",
@@ -32,12 +32,10 @@ const TaskItem = () => {
     >
       <Grid style={{ alignItems: "center" }}>
         <Paper className={classes.paper}>
-          <Checkbox
-            defaultChecked
-            color="primary"
-            inputProps={{ "aria-label": "secondary checkbox" }}
+          <FormControlLabel
+            control={<Checkbox name="checkedA" />}
+            label={`Task Item ${item + 1}`}
           />
-          <p>Task Name</p>
         </Paper>
       </Grid>
       <Grid>
