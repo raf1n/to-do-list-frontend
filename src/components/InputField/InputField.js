@@ -14,12 +14,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InputField() {
-  const [taskItem, setTaskItem] = useState({});
+  const [taskItem, setTaskItem] = useState("");
 
   const classes = useStyles();
   const handleTaskItem = (e) => {
     console.log(taskItem);
-    let task = { name: taskItem, isChecked: true, isDeleted: true };
+    const isChecked = false;
+    const isDeleted = false;
+    let task = { name: taskItem, isChecked, isDeleted };
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
@@ -33,7 +35,7 @@ export default function InputField() {
 
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleTaskItem}
       className={classes.root}
       noValidate
       autoComplete="off"
@@ -44,6 +46,7 @@ export default function InputField() {
         }}
         onKeyPress={(event) => {
           if (event.key === "Enter") {
+            event.preventDefault();
             handleTaskItem();
           }
         }}
