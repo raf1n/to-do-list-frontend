@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
-const TaskItem = ({ item, handleUpdate }) => {
+const TaskItem = ({ item, handleUpdate, handleDelete }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -46,7 +46,9 @@ const TaskItem = ({ item, handleUpdate }) => {
         <Button style={{ marginRight: "5px" }} color="primary">
           EDIT
         </Button>
-        <Button color="primary">DELETE</Button>
+        <Button onClick={() => handleDelete(item?._id)} color="primary">
+          DELETE
+        </Button>
       </Grid>
     </Grid>
   );

@@ -48,7 +48,7 @@ function App() {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ ...updatedTask }),
+      body: JSON.stringify(updatedTask),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -57,7 +57,23 @@ function App() {
         }
       });
   };
+  const handleDelete = (id) => {
+    const newTask = tasks.find((task) => task._id === id);
+    const updatedTask = { ...newTask, isDeleted: !newTask?.isDeleted };
 
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+        }
+      });
+  };
   return (
     <Container>
       <NavBar></NavBar>
@@ -67,6 +83,7 @@ function App() {
       ></InputField>
       {tasks?.map((item) => (
         <TaskItem
+          handleDelete={handleDelete}
           key={item?._id}
           handleUpdate={handleUpdate}
           item={item}
