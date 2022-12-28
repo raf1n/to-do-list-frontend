@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -13,25 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function InputField() {
-  const [taskItem, setTaskItem] = useState("");
-
+export default function InputField({ setTaskItem, handleTaskItem }) {
   const classes = useStyles();
-  const handleTaskItem = (e) => {
-    console.log(taskItem);
-    const isChecked = false;
-    const isDeleted = false;
-    let task = { name: taskItem, isChecked, isDeleted };
-    fetch("http://localhost:5000/users", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(task),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  };
 
   return (
     <form
@@ -48,6 +31,7 @@ export default function InputField() {
           if (event.key === "Enter") {
             event.preventDefault();
             handleTaskItem();
+            event.target.value = "";
           }
         }}
         name="text"

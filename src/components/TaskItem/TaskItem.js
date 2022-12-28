@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
-const TaskItem = ({ item }) => {
+const TaskItem = ({ item, handleUpdate }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -36,6 +36,7 @@ const TaskItem = ({ item }) => {
         <Paper className={classes.paper}>
           <FormControlLabel
             checked={item?.isChecked}
+            onChange={() => handleUpdate(item?._id)}
             control={<Checkbox name="checkedA" />}
             label={item?.name}
           />
