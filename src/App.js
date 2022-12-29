@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 function App() {
   const [refresh, setRefresh] = useState(false);
   const [taskItem, setTaskItem] = useState("");
+  const [editable, setEditable] = useState(false);
+  const handleEdit = () => {
+    setEditable(!editable);
+  };
   const handleTaskItem = (e) => {
     console.log(taskItem);
     const isChecked = false;
@@ -78,7 +82,23 @@ function App() {
         }
       });
   };
-
+  const handleTaskUpdate = (id, name) => {
+    console.log(id, name);
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name: name }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setEditable(!editable);
+          setRefresh(!refresh);
+        }
+      });
+  };
   return (
     <Container>
       <NavBar></NavBar>
@@ -88,6 +108,9 @@ function App() {
       ></InputField>
       {tasks?.map((item) => (
         <TaskItem
+          handleTaskUpdate={handleTaskUpdate}
+          handleEdit={handleEdit}
+          editable={editable}
           // handleClickOpen={handleClickOpen}
           handleDelete={handleDelete}
           tasks={tasks}

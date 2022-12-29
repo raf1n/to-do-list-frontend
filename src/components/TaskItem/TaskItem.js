@@ -1,4 +1,4 @@
-import { FormControlLabel } from "@material-ui/core";
+import { FormControlLabel, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -17,9 +17,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const TaskItem = ({
+  editable,
+  handleEdit,
   item,
   handleUpdate,
   handleDelete,
+  handleTaskUpdate,
   // handleClickOpen,
   // handleClose,
   // setOpen,
@@ -52,16 +55,35 @@ const TaskItem = ({
     >
       <Grid style={{ alignItems: "center" }}>
         <Paper className={classes.paper}>
-          <FormControlLabel
-            checked={item?.isChecked}
-            onChange={() => handleUpdate(item?._id)}
-            control={<Checkbox name="checkedA" />}
-            label={item?.name}
-          />
+          {editable ? (
+            <TextField
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleTaskUpdate(item?._id, e.target.value);
+                }
+              }}
+              defaultValue={item?.name}
+              id="outlined-basic"
+              label="Enter Task name"
+              variant="outlined"
+            />
+          ) : (
+            <FormControlLabel
+              checked={item?.isChecked}
+              onChange={() => handleUpdate(item?._id)}
+              control={<Checkbox name="checkedA" />}
+              label={item?.name}
+            />
+          )}
         </Paper>
       </Grid>
       <Grid>
-        <Button style={{ marginRight: "5px" }} color="primary">
+        <Button
+          onClick={handleEdit}
+          style={{ marginRight: "5px" }}
+          color="primary"
+        >
           EDIT
         </Button>
         <Button onClick={handleClickOpen} color="primary">
