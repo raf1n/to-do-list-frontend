@@ -29,14 +29,9 @@ export default function DeleteModal({
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Use Google's location service?"}
+          Are you sure! You want to delete?
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
+
         <DialogActions>
           <Button
             onClick={() => handleDelete(item?._id)}
@@ -46,7 +41,7 @@ export default function DeleteModal({
             Delete
           </Button>
           <Button autoFocus onClick={handleClose} color="primary">
-            Disagree
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
