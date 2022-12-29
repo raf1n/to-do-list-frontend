@@ -17,19 +17,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const TaskItem = ({
-  editable,
-  handleEdit,
   item,
   handleUpdate,
   handleDelete,
-  handleTaskUpdate,
+  setRefresh,
+  refresh,
+  // handleTaskUpdate,
   // handleClickOpen,
   // handleClose,
   // setOpen,
   // open,
 }) => {
   const [open, setOpen] = useState(false);
-
+  const [editable, setEditable] = useState(false);
+  const handleEdit = () => {
+    setEditable(!editable);
+  };
+  const handleTaskUpdate = (id, name) => {
+    console.log(id, name);
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name: name }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setEditable(!editable);
+          setRefresh(!refresh);
+        }
+      });
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
