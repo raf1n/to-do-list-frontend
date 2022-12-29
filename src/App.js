@@ -5,6 +5,7 @@ import TaskItem from "./components/TaskItem/TaskItem";
 import { useEffect, useState } from "react";
 
 function App() {
+  const [refresh, setRefresh] = useState(false);
   const [taskItem, setTaskItem] = useState("");
   const handleTaskItem = (e) => {
     console.log(taskItem);
@@ -31,12 +32,31 @@ function App() {
     fetch("http://localhost:5000/users")
       .then((res) => res.json())
       .then((data) => setTasks(data));
-  }, [tasks]);
+  }, [refresh]);
 
   // const [isTickChecked, setIsTickChecked] = useState(taskItem?.isChecked);
   // const handleCheckUpdate = () => {
   //   setIsTickChecked(!isTickChecked);
   // };
+  const handleDelete = (id) => {
+    console.log(id);
+    const newTask = tasks.find((task) => task._id === id);
+    const updatedTask = { ...newTask, isDeleted: !newTask?.isDeleted };
+
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setRefresh(!refresh);
+        }
+      });
+  };
   const handleUpdate = (id) => {
     // handleCheckUpdate();
     const newTask = tasks.find((task) => task._id === id);
@@ -54,26 +74,11 @@ function App() {
       .then((data) => {
         if (data) {
           setTaskItem(updatedTask);
+          setRefresh(!refresh);
         }
       });
   };
-  const handleDelete = (id) => {
-    const newTask = tasks.find((task) => task._id === id);
-    const updatedTask = { ...newTask, isDeleted: !newTask?.isDeleted };
 
-    fetch(`http://localhost:5000/users/${id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updatedTask),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-        }
-      });
-  };
   return (
     <Container>
       <NavBar></NavBar>
@@ -83,10 +88,16 @@ function App() {
       ></InputField>
       {tasks?.map((item) => (
         <TaskItem
+          // handleClickOpen={handleClickOpen}
           handleDelete={handleDelete}
+          tasks={tasks}
           key={item?._id}
           handleUpdate={handleUpdate}
           item={item}
+          // handleClose={handleClose}
+          // handleDelete={handleDelete}
+          // setOpen={setOpen}
+          // open={open}
         ></TaskItem>
       ))}
     </Container>

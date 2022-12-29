@@ -1,10 +1,11 @@
 import { FormControlLabel } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -15,7 +16,24 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
-const TaskItem = ({ item, handleUpdate, handleDelete }) => {
+const TaskItem = ({
+  item,
+  handleUpdate,
+  handleDelete,
+  // handleClickOpen,
+  // handleClose,
+  // setOpen,
+  // open,
+}) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const classes = useStyles();
   return (
     <Grid
@@ -46,9 +64,18 @@ const TaskItem = ({ item, handleUpdate, handleDelete }) => {
         <Button style={{ marginRight: "5px" }} color="primary">
           EDIT
         </Button>
-        <Button onClick={() => handleDelete(item?._id)} color="primary">
+        <Button onClick={handleClickOpen} color="primary">
           DELETE
         </Button>
+        <DeleteModal
+          key={item?._id}
+          handleClose={handleClose}
+          item={item}
+          handleDelete={handleDelete}
+          setOpen={setOpen}
+          open={open}
+          handleClickOpen={handleClickOpen}
+        ></DeleteModal>
       </Grid>
     </Grid>
   );
