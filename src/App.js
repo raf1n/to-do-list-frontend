@@ -13,7 +13,7 @@ function App() {
     const isChecked = false;
     const isDeleted = false;
     let task = { name: taskItem, isChecked, isDeleted };
-    fetch("http://localhost:5000/users", {
+    fetch("https://to-do.adaptable.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -30,7 +30,7 @@ function App() {
     setTasks([...tasks, task]);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://to-do.adaptable.app/users")
       .then((res) => res.json())
       .then((data) => setTasks(data));
   }, [refresh]);
@@ -44,7 +44,7 @@ function App() {
     const newTask = tasks.find((task) => task._id === id);
     const updatedTask = { ...newTask, isDeleted: !newTask?.isDeleted };
 
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://to-do.adaptable.app/users/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -64,7 +64,7 @@ function App() {
     const updatedTask = { ...newTask, isChecked: !newTask?.isChecked };
     console.log(updatedTask);
     console.log(id);
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://to-do.adaptable.app/users/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

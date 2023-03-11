@@ -35,7 +35,7 @@ const TaskItem = ({
   };
   const handleTaskUpdate = (id, name) => {
     console.log(id, name);
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://to-do.adaptable.app/users/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
